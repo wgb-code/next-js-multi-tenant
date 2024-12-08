@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "api": "npx nodemon api/app.js"
   },
   "dependencies": {
     "react": "^19.0.0",
