@@ -1,4 +1,5 @@
 import { saveSession } from "@/utils/session"
+import { redirect } from "next/navigation"
 
 export async function loginAction(formData: FormData) {
     'use server'
@@ -16,6 +17,7 @@ export async function loginAction(formData: FormData) {
     if (response.ok) {
         const { token } = await response.json()
         await saveSession(token)
+        redirect("/")
     }
 }
 
