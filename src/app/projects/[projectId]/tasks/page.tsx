@@ -1,10 +1,29 @@
+import { getSession } from "@/utils/session"
+
+export async function getTasks(projectId: any) {
+
+    const session = await getSession()
+    const response = await fetch(`http://localhost:8000/projects/${projectId}/tasks`, {
+      headers: {
+        Authorization: `Bearer ${session.token}`,
+      }
+    })
+  
+    return response.json()
+  }
+
+export async function addTaskAction(formData: FormData) {
+    'use server'
+}
+
 export async function TasksPage({
     params,
 }: {
     params: Promise<{ projectId: string}>
 }) {
 
-    const { projectId } = await params 
+    const { projectId } = await params
+    const tasks = await getTasks(projectId)
 
     return (
         <div className="m-4">
@@ -31,7 +50,7 @@ export async function TasksPage({
                     <label>Description</label>
                     <textarea name="description" className="border p-2 w-full"></textarea>
                 </div>
-                
+
                 <button type="submit" className="bg-green-500 text-white px-4 py-2">
                     Add Task
                 </button>
@@ -39,3 +58,5 @@ export async function TasksPage({
         </div>
     );
 }
+
+export default TasksPage
