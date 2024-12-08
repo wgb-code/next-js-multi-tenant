@@ -1,4 +1,5 @@
 import { getSession } from "@/utils/session"
+import { revalidatePath } from "next/cache"
 
 export async function getTasks(projectId: any) {
 
@@ -14,6 +15,20 @@ export async function getTasks(projectId: any) {
 
 export async function addTaskAction(formData: FormData) {
     'use server'
+
+    const { projectId, title, description } = Object.fromEntries(formData)
+    const session = await getSession()
+
+    await fetch(`http://localhost:8000/projects/${projectId}/tasks`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${session.token}`
+        },
+        body: JSON.stringify({ title, description })
+    })
+    
+    revalidatePath(`/projects/${projectId}/tasks`)
 }
 
 export async function TasksPage({
