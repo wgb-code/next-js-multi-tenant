@@ -1,7 +1,11 @@
-import { getUser } from "@/utils/session";
+import { destroySession, getUser } from "@/utils/session";
+import { redirect } from "next/navigation";
 
 export async function logoutAction() {
     'use server'
+
+    await destroySession()
+    redirect('/login')
 }
 
 export async function Navbar() {
@@ -9,7 +13,7 @@ export async function Navbar() {
 
     return (
         <nav className="bg-gray-800 p-4 flex justify-between items-center">
-            <div className="text-white font-bold text-lg">Next.js - Full Cycle</div>
+            <div className="text-white font-bold text-lg">Willian.Inc</div>
             
             <div className="flex items-center gap-4">
                 {user && (
