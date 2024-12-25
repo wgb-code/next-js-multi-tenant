@@ -1,6 +1,7 @@
 import 'server-only';
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
 
 export type User = {
     sub: number;
@@ -38,6 +39,12 @@ export function destroySession() {
     
 }
 
-export function getUser() {
+export async function getUser(): Promise<User | null> {
+    const session = await getSession()
 
+    if (!session.token) {
+        return null
+    }
+
+    return jwt.decode(session.token) as unknown as User
 }
